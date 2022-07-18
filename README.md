@@ -26,7 +26,7 @@ MQTTConsumerid is set in the config and the none MM MQTT consumer will subscribe
 
 The free windows app, MQTT explorer, is a good tool for monitoring the success of the deployment of this module and data flow within MQTT.
 
-MQTT messages require a MQTT broker, there are many options available and a Google search is probably the best way to find one suitable to an individual's deployment. This module and MMQT was tested using a NAS server running a MQTT broker in a docker container. 
+MQTT messages require a MQTT broker, there are many options available and a Google search is probably the best way to find one suitable to an individual's deployment. This module was tested using a MQTT broker running in a docker container on a Synology NAS.. 
 
 ### Dependencies
 
