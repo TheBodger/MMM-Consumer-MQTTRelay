@@ -2,15 +2,15 @@
 
 This magic mirror module is the MMM-Consumer-MQTTRelay module that is part of the MMM-Consumer and MMM-Provider interrelated modules.
 
-This module can receive feeds of data from various provider modules, such as the MMM-Provider-JSON module, and can display an overview of the data traffic and contents. The primary purposes however is to relay the data as a MQTT payload so that other systems can utilise the data. The example included below shows how weather data from the metoffice can be extracted using the MMM-Provider-JSON module and then relayed to a specific MQTT topic for other, none Magic Mirror modules to consume. Because there is a common format employed by all of the providers in this ecosystem, then any can be used as a provider to this module..
+This module can receive feeds of data from various provider modules, such as the MMM-Provider-JSON module, and can display an overview of the MM data traffic and contents (if required). The primary purpose, however, is to relay the data as a MQTT payload so that other systems can utilise the data. The example included below shows how weather data from the metoffice can be extracted using the MMM-Provider-JSON module and then relayed to a specific MQTT topic for other, none Magic Mirror modules to consume. Because there is a common format employed by all of the providers in this ecosystem, then any can be used as a provider to this module..
 
+If you require a MM module to send data to MM from MQTT or display MQTT Topics data within the MM environment, there are other MM modules that may be suitable.
 ### Process
 
-the provider crafts a message to send that contains a set of metadata about the data and the data itself.
-the consumer displays the metadata if required, builds the MQTT topic from the metadata and the config and then publishes the MQTT message to the topic. the MQTT message contains the payload exactly as passed from the provider so that any subscriber can use the same logic as a MMM consumer module to determine if it is for them to process and if it is then to process it.
+The MM provider crafts a message to send that contains a set of metadata about the data and the data itself.
+This MM consumer displays the metadata if required, builds the MQTT topic from the metadata and the config and then publishes the MQTT message to the topic. The MQTT message contains the payload exactly as passed from the provider so that any subscriber can use the same logic as a MMM consumer module to determine if it is for them to process and if it is then to process it.
 
-
-the provider module message takes the format of:
+The provider module message takes the format of:
 
 ```
 	consumerid - the unique id of the consumer requesting the data (this module)
@@ -20,13 +20,13 @@ the provider module message takes the format of:
 	payload - the actual data, formatted depending on the provider module
 ```
 
-	the MQTT topic for each message will be MM/providerid/MQTTConsumerid
+The MQTT topic for each message will be MM/providerid/MQTTConsumerid
 
-	MQTTConsumerid is set in config and the MQTT consumer will subscribe to this topic - so the MQTT consumer needs to be configured accordingly.
+MQTTConsumerid is set in the config and the none MM MQTT consumer will subscribe to this topic - so the MQTT consumer needs to be configured accordingly.
 
-	The free windows app, MQTT explorer is a good tool for monitoring the success of the deployment of this module
+The free windows app, MQTT explorer, is a good tool for monitoring the success of the deployment of this module and data flow within MQTT.
 
-	MQTT requires a MQTT broker, there are many options available and a Google search is probably the best way to find one suitable to an individual''s deployment. This module and MMQT was tested using a NAS server running a MQTT broker in a docker container. 
+MQTT messages require a MQTT broker, there are many options available and a Google search is probably the best way to find one suitable to an individual's deployment. This module and MMQT was tested using a NAS server running a MQTT broker in a docker container. 
 
 ### Dependencies
 
