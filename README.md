@@ -2,7 +2,7 @@
 
 This magic mirror module is the MMM-Consumer-MQTTRelay module that is part of the MMM-Consumer and MMM-Provider interrelated modules.
 
-This module can receive feeds of data from various provider modules, such as the MMM-Provider-JSON module, and can display an overview of the MM data traffic and contents (if required). The primary purpose, however, is to relay the data as a MQTT payload so that other systems can utilise the data. The example included below shows how weather data from the metoffice can be extracted using the MMM-Provider-JSON module and then relayed to a specific MQTT topic for other, none Magic Mirror modules to consume. Because there is a common format employed by all of the providers in this ecosystem, then any can be used as a provider to this module..
+This module can receive feeds of data from various provider modules, such as the MMM-Provider-JSON module, and can display an overview of the MM data traffic and contents (if required). The primary purpose, however, is to relay the data as a MQTT payload so that other systems can utilise the data. The example included below shows how weather data from the metoffice can be extracted using the MMM-Provider-JSON module and then relayed to a specific MQTT topic for other, none Magic Mirror modules to consume. Because there is a common format employed by all* of the providers in this ecosystem, then any* can be used as a provider to this module..
 
 If you require a MM module to send data to MM from MQTT or display MQTT Topics data within the MM environment, there are other MM modules that may be suitable.
 ### Process
@@ -44,9 +44,7 @@ Node modules required
 ## Standalone Installation
 To install the module, use your terminal to:
 1. Navigate to your MagicMirror's modules folder. If you are using the default installation directory, use the command:<br />`cd ~/MagicMirror/modules`
-2. Clone the module:<br />`git clone https://github.com/TheBodger/MMM-Consumer-Flights`
-
-You can update the list of airports from here to make sure you have all the current airports details : https://openflights.org/data.html , save the file airports.dat into the folder modules/MMM-Consumer-Flights/reference and call it airports.csv
+2. Clone the module:<br />`git clone https://github.com/TheBodger/MMM-Consumer-MQTTRelay`
 
 ### MagicMirror² Configuration
 
@@ -104,42 +102,4 @@ To use this module, add the following configuration blocks to the modules array 
 
 The config id must match between providers and consumers. Being a case sensitive environment extra care is needed here.<BR>
 
-TODO Fields available to display on the board, any field or fields can be excluded using the exclude config option
-
-At
-Airline (Text or icon)
-To
-Flight
-Remarks
-Terminal
-Gate
-
-If an airlines ICON is missing from the icons folder, then a temporary one is created in the subfolder of tempicons. These are minimal SVG files containing a possibly shortened name of the airline. These are named in the format of IATAcode_ICAOcode.svg. To add a correct icon, download the image in any format into the icons folder and name it the same as the one in tempicons. if the temporary icon is named with a 3 letter IATAcode this is in theory invalid. When all icons have been added, run the buildairlines.js to update the database so the new icons will appear on the boards next time the module refreshes. Wikipedia is a good source of SVG files. Check copyright usage always.
-
-Missing airlines from the database (airlines.json.master) are reported in the node console log. These are usually 3 letter coded airlines, aviationstack sometimes wrongly reports them without the IATA code and ICAO code in its place. IATA code lists can be found through google or the IATA site when you weant to check the code of an airline
-
-```
-cd MAgicMirror/modules/MMM-consumer-Flights
-node buildairlines.js
-
-```
-
-The script airports.js exposes the list of iata airportcodes in the file references/airports.csv (down loadable from https://openflights.org/data.html ) so that additional information can be added to the board if it cant be supplied in the main feed from the MMM-Provider-xxx module
-if an alternative source is required, clone airports.js and adjust accordingly.
-
-the helper script airline.js exposes a "database" of airline properties and icons obtained from wikipedia; missing icons are replaced with the airline name in red displayed on the board; 
-
-<PRE>
-
-top US carriers
-
-1	Southwest	163.606	 1	157.677	 3.8
-2	Delta		152.029	 2	145.647	 4.4
-3	American	148.181	 3	144.864	 2.3
-4	United		113.197	 4	107.243	 5.6
-5	JetBlue		 42.236	 5	 40.015	 5.5
-6	SkyWest		 38.956	 6	 35.776	 8.9
-7	Alaska		 33.503	 7	 26.067	28.5
-8	Spirit		 28.683	 8	 23.813	20.5
-9	Frontier	 19.433	10	 16.800	15.7
-10	Republic 	 18.640	 9	 16.932	10.1
+*Please test any module used as a feed as some are still evolving towards a standard format
