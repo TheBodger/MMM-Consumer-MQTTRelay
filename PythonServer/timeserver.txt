@@ -1,0 +1,74 @@
+# simple client to create topic message for the server - mimicing what will happen with a PCO temperature guauge 
+# and other APP
+
+#------------- commands on subscribed channel -------------------
+"""
+format of message is json {"cmd":"set","var":"fanofftemp","val":"22.0"} #default
+format of message is json {"cmd":"set","var":"fanontemp","val":"25.0"}  #default, do not calculate fanofftemp
+format of message is json {"cmd":"set","var":"fandelta","val":"3.0"}  #default, if sent then the fanontemp is calcualted as fanofftemp + fandelta.val
+
+in message callback, handle the command if formed correctly
+
+json.loads(str)
+#Parse the JSON str and return an object. Raises ValueError if the string is not correctly formed.
+
+j['val']
+>>'22.0'
+
+format of message is json {"cmd":"set","var":"localtime","val":"yyyy.mm.dd.hh.mm.ss.wd.yd.ds"} #default / see time.struct from circuitpython
+
+    import rtc
+    import time
+
+    r = rtc.RTC()
+    r.datetime = time.struct_time((2019, 5, 29, 15, 14, 15, 0, -1, -1))
+
+    time.struct_time(time_tuple: Sequence[int])
+        Structure used to capture a date and time. Can be constructed from a struct_time, tuple, list, or namedtuple with 9 elements.
+
+    Parameters
+        time_tuple (Sequence) –
+            Sequence of time info: (tm_year, tm_mon, tm_mday, tm_hour, tm_min, tm_sec, tm_wday, tm_yday, tm_isdst)
+                tm_year: the year, 2017 for example
+                tm_mon: the month, range [1, 12]
+                tm_mday: the day of the month, range [1, 31]
+                tm_hour: the hour, range [0, 23]
+                tm_min: the minute, range [0, 59]
+                tm_sec: the second, range [0, 61]
+                tm_wday: the day of the week, range [0, 6], Monday is 0
+                tm_yday: the day of the year, range [1, 366], -1 indicates not known
+                tm_isdst: 1 when in daylight savings, 0 when not, -1 if unknown.
+
+
+"""
+import json
+mqtt_topic_cmds = "home/garage/NASCMDS"
+
+
+myServer = "192.168.1.31" #diskstation2 /  netbios name not resolving, try .local ??
+
+import paho.mqtt.client as mqtt
+
+# The callback for when the client receives a CONNACK response from the server.
+def on_connect(client, userdata, flags, rc):
+    print("Connected with result code "+str(rc))
+
+    # Subscribing in on_connect() means that if we lose the connection and
+    # reconnect then subscriptions will be renewed.
+    client.subscribe("$SYS/#")
+
+# The callback for when a PUBLISH message is received from the server.
+def on_message(client, userdata, msg):
+    print(msg.topic+" "+str(msg.payload))
+
+client = mqtt.Client(client_id="MQTT01")
+client.on_connect = on_connect
+client.on_message = on_message
+
+client.connect(myServer, 1883, 600)
+
+# Blocking call that processes network traffic, dispatches callbacks and
+# handles reconnecting.
+# Other loop*() functions are available that give a threaded interface and a
+# manual interface.
+client.loop_forever()

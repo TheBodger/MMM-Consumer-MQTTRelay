@@ -24,9 +24,13 @@ The MQTT topic for each message will be MM/providerid/MQTTConsumerid
 
 MQTTConsumerid is set in the config and the none MM MQTT consumer will subscribe to this topic - so the MQTT consumer needs to be configured accordingly.
 
-The free windows app, MQTT explorer, is a good tool for monitoring the success of the deployment of this module and data flow within MQTT.
+### Running MQTT broker
 
 MQTT messages require a MQTT broker, there are many options available and a Google search is probably the best way to find one suitable to an individual's deployment. This module was tested using a MQTT broker running in a docker container on a Synology NAS.. 
+
+### Debugging MQTT
+
+The free windows app, MQTT explorer, is a good tool for monitoring the success of the deployment of this module and data flow within MQTT.
 
 ### Dependencies
 
@@ -39,28 +43,29 @@ To install the module, use your terminal to:
 
 ### MagicMirror² Configuration
 
-To use this module, add the following configuration blocks to the modules array in the config file. The MMM-Provider-JSON module is normally required as well to provide the data to display
+To use this module, add the following configuration blocks to the modules array in the config file. The MMM-Provider-SOAP module is used in this example to provide the data to send onto the MQTT proxy
 
 ```js
 
 
 		{
-			module: "MMM-Provider-JSON",
+			module: "MMM-Provider-SOAP",
 			config: {
-				consumerids: ["arrivals",],
-				id: 'FlightArrivals', 
-				package: 'FlightArrivals',
-				urlparams: { apikey: 'aviation stack API key', airportcode: 'LHR' },
-
-			}
+				consumerids: ["BRDepReading",], //mandatory ID of the consumer receiving the data from the module
+				id: 'provBRDepReading', //mandatory unique ID
+				package: 'BritishRailDeparturesReading', //name of the package that contains a standard set of config details
+				filename: 'BritishRailDeparturesReading.json', //the name of an output file containing the details sent to the consumer for debug usage etc
+			},
 		},
 
 		{
-			module: "MMM-Consumer-Flights",
+			module: "MMM-Consumer-MQTTRelay",
 			position: "top_left",
-			
+
 			config: {
-				id: 'arrivals',
+				id: 'BRDepReading',
+				MQTTConsumerid: 'MMQTRelay',
+				server:'201.10.23.234',
 			}
 		},
 
@@ -73,24 +78,9 @@ To use this module, add the following configuration blocks to the modules array 
 |------------------------ |--------------
 | `text`                | *Optional* - Will be displayed on the magic mirror until the first data has been received and prepared for display <br><br> **Possible values:** Any string.<br> **Default value:** '... loading'
 | `id`         | *Required* - The unique ID of this consumer module. This ID must match exactly (CaSe) the consumerids in the provider modules. <br><br> **Possible values:** any unique string<br> **Default value:** none
-| `rowcount`            |*Optional* - The number of rows of flights to show at a time<br><br> **Possible values:** A numeric value between 1 and 50 <br> **Default value:** 10
-| `exclude`            |*Optional* - An array of field names to exclude from the board<br><br> **Possible values:** An array of 1 or more column names (see below for the list)<br> **Default value:** none
-| `icon`            |*Optional* - Include an icon of the airline instead of the text. See notes below on how to add icons to the module folders<br><br> **Possible values:** true or false<br> **Default value:** false
-| `codes`            |*Optional* - Show only the codes provided from the provider for Airports, flights and carriers. It is assumed that these will be IATA codes. IF other codes are provided then used the reference setting to convert to strings for displaying on the board<br><br> **Possible values:** true or false<br> **Default value:** true
-| `header`            |*Optional* - Include the board header (clock, location etc)<br><br> **Possible values:** true or false<br> **Default value:** true
-| `refreshrate`            |*Optional* - The time in milliseconds between showing the next set of flights on the board<br><br> **Possible values:** A numeric value greater than 100  <br> **Default value:** 10000 (10 seconds)
-| `flightcount`            |*Optional* - The number of flights to show, the default is all flights passed from the provider, but this can be used to reduce the total number<br><br> **Possible values:** A numeric value greater than 1<br> **Default value:** all (null)
-| `scroll`            |*Optional* - If true, then the flights are moved up one at atime on the board, otherwise a full baord at a time is displayed<br><br> **Possible values:** true or false<br> **Default value:** false
-| `animate`            |*Optional* - Animate the characters on the board as they change.<br><br> **Possible values:** true or false<br> **Default value:** false
-| `simple`            |*Optional* - Show a simple formated board with no embellishments<br><br> **Possible values:** true or false<br> **Default value:** true
-| `remarks`            |*Optional* - Display full remarks, using varisou elelments to determine message<br><br> **Possible values:** true or false<br> **Default value:** true
-| `theme`            |*Optional* - The name of the theme in the themes folder to use, provided so different colour schemes can be used to mimic different airport's boards<br><br> **Possible values:** the name of a theme folder<br> **Default value:** LHR 
-| `size`            |*Optional* - The name of the magic mirror text sixe to apply to the board text<br><br> **Possible values:** any magicmirror text size defined in the main.css or custom.css<br> **Default value:** small
-| 'codeshare'			|*Optional* - If scroll is enabled then cycle through each codeshared flight  at each refereh of the board<br><br> **Possible values:** true or false<br> **Default value:** false
-| 'localtime' true,			|*Optional* - If true, show the time on the board header in local time (utc + timezone offset)<br><br> **Possible values:** true or false<br> **Default value:** true
 
 ### Additional_Notes
 
 The config id must match between providers and consumers. Being a case sensitive environment extra care is needed here.<BR>
 
-*Please test any module used as a feed as some are still evolving towards a standard format
+*Please test any module used as a feed as some are still WIP and may not yet meet standard formats
