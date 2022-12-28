@@ -32,15 +32,6 @@ MQTT messages require a MQTT broker, there are many options available and a Goog
 
 Before installing this module, also install https://github.com/TheBodger/MMM-ChartUtilities as well as https://github.com/TheBodger/MMM-FeedUtilities 
 
-To use this with the flights data, install https://github.com/TheBodger/MMM-Provider-JSON and follow the instructions that come with that module.
-
-Node modules required
-
-<BR>cd to the MagicMirror folder
-
-<BR>npm i --save csvtojson
-<BR>npm install moment-timezone --save
-
 ## Standalone Installation
 To install the module, use your terminal to:
 1. Navigate to your MagicMirror's modules folder. If you are using the default installation directory, use the command:<br />`cd ~/MagicMirror/modules`
