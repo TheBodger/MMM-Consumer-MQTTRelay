@@ -2,7 +2,9 @@
 
 This magic mirror module is the MMM-Consumer-MQTTRelay module that is part of the MMM-Consumer and MMM-Provider interrelated modules.
 
-This module can receive feeds of data from various provider modules, such as the MMM-Provider-JSON module, and can display an overview of the MM data traffic and contents (if required). The primary purpose, however, is to relay the data as a MQTT payload so that other systems can utilise the data. The example included below shows how weather data from the metoffice can be extracted using the MMM-Provider-JSON module and then relayed to a specific MQTT topic for other, none Magic Mirror modules to consume. Because there is a common format employed by all* of the providers in this ecosystem, then any* can be used as a provider to this module..
+This module can receive feeds of data from various provider modules, such as the MMM-Provider-JSON module, and can display an overview of the MM data traffic and contents (if required). The primary purpose, however, is to relay the data as a MQTT payload so that other systems can utilise the data. The example included below shows how British Rail Departure data from BR can be extracted using the MMM-Provider-JSON module and then relayed to a specific MQTT topic for other, none Magic Mirror modules to consume. In this case the xternal consumer drives a display board showing departure from the chosen station in near real time.
+
+Because there is a common format employed by all* of the providers in this ecosystem, then any* can be used as a provider to this module..
 
 If you require a MM module to send data to MM from MQTT or display MQTT Topics data within the MM environment, there are other MM modules that may be suitable.
 ### Process
