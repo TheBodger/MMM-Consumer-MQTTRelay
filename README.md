@@ -24,7 +24,7 @@ The provider module message takes the format of:
 
 The MQTT topic for each message will be MM/providerid/MQTTConsumerid
 
-MQTTConsumerid is set in the config and the none MM MQTT consumer will subscribe to this topic - so the MQTT consumer needs to be configured accordingly.
+MQTTConsumerid is set in the config and the external MQTT consumer will subscribe to this topic - so the MQTT consumer needs to be configured accordingly.
 
 ### Running MQTT broker
 
@@ -80,6 +80,8 @@ To use this module, add the following configuration blocks to the modules array 
 |------------------------ |--------------
 | `text`                | *Optional* - Will be displayed on the magic mirror until the first data has been received and prepared for display <br><br> **Possible values:** Any string.<br> **Default value:** '... loading'
 | `id`         | *Required* - The unique ID of this consumer module. This ID must match exactly (CaSe) the consumerids in the provider modules. <br><br> **Possible values:** any unique string<br> **Default value:** none
+| `MQTTConsumerid`         | *Required* - An ID to be used by the external MQTT consumer of the TOPIC to confirm the message is for them. <br><br> **Possible values:** any string<br> **Default value:** none
+| `server`         | *Required* - The IP address of the MQTT broker to use. <br><br> **Possible values:** an IP Address<br> **Default value:** none
 
 ### Additional_Notes
 
